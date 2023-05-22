@@ -1,19 +1,12 @@
-### RPM external pythia8 230
-%define tag 7e83a23bf846bbe827a46dd69f6bdd1db49b180f
-%define branch cms/%{realversion}
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+### RPM external pythia8 307
+Source: https://pythia.org/download/pythia83/%{n}%{realversion}.tgz
 
-Requires: hepmc lhapdf
-
+Requires: hepmc hepmc3 lhapdf
 %prep
-%setup -q -n %{n}-%{realversion}
-
-./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
-
+%setup -q -n %{n}%{realversion}
+./configure --prefix=%i --enable-shared --with-hepmc2=${HEPMC_ROOT} --with-hepmc3=${HEPMC3_ROOT} --with-lhapdf6=${LHAPDF_ROOT}
 %build
 make %makeprocesses
-
 %install
 make install
 test -f %i/lib/libpythia8lhapdf6.so || exit 1
